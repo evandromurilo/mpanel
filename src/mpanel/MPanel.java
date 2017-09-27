@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * A subclass of JPanel that acts like a layout manager.
+ *
+ * github.com/evandromurilo/MPanel
  * Created by Evandro Murilo on 9/20/17.
  */
 
@@ -23,6 +26,16 @@ public class MPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     }
 
+    /**
+     * Add a JLabel and a JTextField to the panel (after resizing then, using lblSize and txtSize, for alignment
+     * purposes).
+     * @param line to what line the components will be added
+     * @param priority components appear in order of lowest priority
+     * @param vGap vertical gap between this and the next line
+     * @param hGap horizontal gap between components
+     * @param lbl label related to the JTextField
+     * @param txt text field related to the JLabel
+     */
     public void add(int line, int priority, int vGap, int hGap, JLabel lbl, JTextField txt) {
         txt.setMaximumSize(txtSize);
         txt.setPreferredSize(txtSize);
@@ -34,6 +47,15 @@ public class MPanel extends JPanel {
         add(line, priority, vGap, hGap, (JComponent) lbl, (JComponent) txt);
     }
 
+    /**
+     * Add one or more components to the panel.
+     *
+     * @param line to what line the components will be added
+     * @param priority components appear in order of lowest priority
+     * @param vGap vertical gap between this and the next line
+     * @param hGap horizontal gap between components
+     * @param components list of components to be added
+     */
     public void add(int line, int priority, int vGap, int hGap, JComponent ... components) {
         for (JComponent component : components) {
             if (line > maxLine) maxLine = line;
@@ -66,11 +88,20 @@ public class MPanel extends JPanel {
         add(maxLine, components);
     }
 
+    /**
+     * Set the spacing before first line and after last line
+     *
+     * @param top spacing before first line
+     * @param bottom spacing after last line
+     */
     public void setMargin(int top, int bottom) {
         this.topMargin = top;
         this.bottomMargin = bottom;
     }
 
+    /**
+     * Adds the components to the panel. This method must be called after the last call to add().
+     */
     public void render() {
         this.removeAll();
         super.add(Box.createRigidArea(new Dimension(0, topMargin)));

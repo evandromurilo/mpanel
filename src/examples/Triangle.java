@@ -63,6 +63,11 @@ public class Triangle extends JFrame implements ActionListener {
         if (e.getSource() == btnFechar) {
             dispose();
         } else {
+            if (txtL1.getText().isEmpty() || txtL2.getText().isEmpty() || txtL3.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Preencha os campos!");
+                return;
+            }
+
             try {
                 double l1 = Double.parseDouble(txtL1.getText());
                 double l2 = Double.parseDouble(txtL2.getText());
@@ -70,18 +75,23 @@ public class Triangle extends JFrame implements ActionListener {
                 double s = (l1 + l2 + l3) / 2;
                 double area = Math.sqrt(s * (s - l1) * (s - l2) * (s - l3));
 
-                lblCalcR.setText(String.format("%.2f", area));
+                if (e.getSource() == btnCalc) {
+                    if (l1 == l2 && l2 == l3) {
+                        lblVerifR.setText("Equilátero");
+                    } else if (l1 == l2 || l1 == l3 || l2 == l3) {
+                        lblVerifR.setText("Isósceles");
+                    } else {
+                        lblVerifR.setText("Escaleno");
+                    }
 
-                if (l1 == l2 && l2 == l3) {
-                    lblVerifR.setText("Equilátero");
-                } else if (l1 == l2 || l1 == l3 || l2 == l3) {
-                    lblVerifR.setText("Isósceles");
-                } else {
-                    lblVerifR.setText("Escaleno");
+                    if (Double.isNaN(area)) {
+                        lblCalcR.setText("Erro");
+                    } else {
+                        lblCalcR.setText(String.format("%.2f", area));
+                    }
                 }
-            } catch (Exception error) {
-                lblCalcR.setText("Error");
-                lblVerifR.setText("Error");
+            } catch (NumberFormatException error) {
+                JOptionPane.showMessageDialog(this, "Formato de número inválido!");
             }
         }
     }

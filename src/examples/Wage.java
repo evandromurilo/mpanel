@@ -82,9 +82,10 @@ public class Wage extends JFrame implements ActionListener {
 
             txtValorC.setText(c + "");
             txtSC.setText(sc + "");
-        } catch (Exception e) {
-            txtValorC.setText("Error");
-            txtSC.setText("Error");
+        } catch (NumberFormatException error) {
+            JOptionPane.showMessageDialog(this, "Valores em formato inválido!");
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this, error.getMessage());
         }
     }
 }
